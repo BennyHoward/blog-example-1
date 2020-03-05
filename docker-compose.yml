@@ -1,0 +1,71 @@
+version: '3.5'
+
+networks:
+  blog-example-1:
+    external: true
+
+services:
+  blog_example_1_mongodb_service1:
+    image: 'mongo:4.2.3-bionic'
+    restart: 'always'
+    container_name: 'mongodb1.blogexample1.local'
+    networks:
+    - 'blog-example-1'
+    hostname: 'mongodb1.blogexample1.local'
+    ports:
+    - '0.0.0.0:27017-27019:27017-27019/tcp'
+    # NOTE: Port 27017 is MongoDB's database port.
+    # NOTE: Port 27018 is MongoDB's port in which sharding related communications occur.
+    # NOTE: Port 27019 is MongoDB's port in which remote configurations take place.
+    volumes:
+    - './fixtures:/docker-entrypoint-initdb.d/:ro'
+    - './certs/server.pem:/etc/ssl/certs/server.pem:ro'
+    - './config/mongod.yml:/etc/mongod.conf:ro'
+    - './data:/data/db'
+    environment:
+      MONGO_INITDB_DATABASE: 'blogexample1DB'
+      MONGO_INITDB_ROOT_USERNAME: 'root'
+      MONGO_INITDB_ROOT_PASSWORD: 'password1'
+    entrypoint: "bash -c 'docker-entrypoint.sh mongod --config /etc/mongod.conf'"
+
+  # TODO: Add Elasticsearch to the tech stack
+  # blog_example_1_elasticsearch_service1:
+  #   image: 'elasticsearch:7.6.0'
+  #   restart: 'always'
+  #   container_name: 'elasticsearch1.blogexample1.local'
+  #   networks:
+  #   - 'blog-example-1'
+  #   hostname: 'elasticsearch1.blogexample1.local'
+  #   ports:
+  #   - '0.0.0.0:9200:9200/tcp'
+  #   - '0.0.0.0:9300:9300/tcp'
+  #   volumes: null
+  #   environment: null
+  #   entrypoint: null
+
+  # TODO: Temporarily adding a placeholder application so that app so that the Docker instructions will work.  Update when real application is ready.
+  blog_example_1_app_service1:
+    # TODO: Add the build instructions to the docker file
+    # build:
+    #   context: ./
+    #   dockerfile: Dockerfile
+    #   args:
+    #     buildno: 1
+    image: 'node:10.19.0-buster-slim'
+    restart: 'no'
+    container_name: 'app1.blogexample1.local'
+    networks:
+    - 'blog-example-1'
+    hostname: 'app1.blogexample1.local'
+    ports:
+    - '0.0.0.0:3000:3000/tcp'
+    volumes:
+    - './certs/server.key:/etc/ssl/certs/server.key:ro'
+    - './certs/server.crt:/etc/ssl/certs/server.crt:ro'
+    - './src/placeholder.js:/placeholder.js:ro'
+    environment:
+      APP_PORT: '3000'
+      APP_MONGODB_HOST: 'mongodb1.blogexample1.local'
+      APP_MONGODB_USERNAME: 'root'
+      APP_MONGODB_PASSWORD: 'password1'
+    entrypoint: "bash -c 'node /placeholder.js'"

@@ -1,0 +1,3 @@
+# TODO: Docker build file to build the Application container.  Finsh this...
+FROM node:10.19.0-buster-slim as build
+LABEL author="Benny Howard <bennyhoward.opensource@gmail.com>"

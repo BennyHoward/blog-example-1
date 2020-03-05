@@ -1,0 +1,5 @@
+{
+  "scripts": {
+    "start:ui": "npx --no-install parcel --no-autoinstall --port 1234 --cache-dir ../tmp/.cache --out-dir ../tmp/ui ./public/index.html"
+  }
+}
