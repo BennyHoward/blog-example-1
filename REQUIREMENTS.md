@@ -1,8 +1,5 @@
 # Requirements
 
-Unfortunately, due to the time limitations, the user registration flow will not be available.  
-However, if this is requested feel free to reach out to [Benny Howard](mailto:bennyhoward.opensource@gmail.com).  
-
 The application is a minimalistic blogging platform.  
 It should allow the user to login, see posts, create a new post, and logout.  
 
