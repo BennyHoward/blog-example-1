@@ -2,27 +2,37 @@
 
 <hr>
 
-**WARNING**: This is a work in progress.  Once this is complete this warning will be removed.  Thank you for your patience.  
+**WARNING**: This is a work in progress.  Once this is complete this warning will be removed.  Thank you for your patience.  Refer to the [`.todo`](./.todo) file for outstanding items.  
 
 <hr>
 
 This is an example project for educational purposes.
 
 This will show students what an almost production ready blogging platform using a MERN stack will look like.  
-Almost production ready because there are a few minor things you shouldn't do that this project does due to it being a development environment.  Like generating self-signed certs, etc.  
+Almost production ready because there are a few minor things you shouldn't do that this project does due to it being a development environment.  Like generating self-signed certs, checking in `.env` files with credentials, etc.  
 
 And by MERN stack I specifically mean:
 
 - [MongoDB](https://docs.mongodb.com/) (as Docker containers)
 - [ExpressJS](https://expressjs.com/) (as the [NestJS](https://docs.nestjs.com/) Framework)
 - [React.js](https://reactjs.org/) (this will also use Material Design as part of the frontend techstack)
-- [Node.js](https://nodejs.org/en/docs/)
+- [Node.js](https://nodejs.org/en/docs/) (v10)
 
-Also other technologies will be used as well such as Docker.  
+Also other technologies will be used as well such as Docker and Elasticsearch.  
 
 ## Author(s)
 
 - [Benny Howard](mailto:bennyhoward.opensource@gmail.com)
+
+## Contributing
+
+Though the source for this example is publicly available, no feature requests will be accepted.  
+This is not a final product or utility, but an example of how a final production-ready project might look like.  
+This is only intended to be used as educational material for anyone curious to learn what the source code of a real-world project with real-world business objectives would look like.  
+
+However, even though feature requests won't be accepted, issues will be.  
+If you notice anything unclear, inaccurate, or even a misspelling please feel free to [report an issue](https://github.com/BennyHoward/blog-example-1/issues).  
+My goal is to make this as clear and informative as possible.  
 
 ## License
 
@@ -208,7 +218,7 @@ Visit the following URL(s) for more information:
 
 - [https://github.com/nodejs/docker-node](https://github.com/nodejs/docker-node)
 
-To bring up the MongoDB container by itself run the following command:  
+To bring up the Application container by itself run the following command:  
 
 ```sh
 docker run --detach --rm --name app1.blogexample1.local \
@@ -262,3 +272,32 @@ docker-compose --file 'docker-compose.yml' down --remove-orphans
 ```
 
 **NOTE**: This will also remove the lingering containers.  So no need to explicitly remove the container or a `--rm` options.  But adding `--remove-orphans` to ensure a clean shutdown of Docker services.  
+
+## Troubleshooting
+
+### Docker commands not working
+
+When running any of the docker commands you may get an error like this: `Cannot connect to the Docker daemon at unix:///var/run/docker.sock. Is the docker daemon running?`  
+
+This is because Docker doesn't run directly on the Mac, but requires a virtual machine running linux which Docker runs through.  
+
+You'll to restart the Docker Machine every time you restart your computer.  After all you don't want a virtual machine running in the background taking up unneeded resources when your not using it.  
+
+Check the status of the current the Docker virtual machines is running with the following command:  
+
+```sh
+docker-machine ls
+# => NAME                ACTIVE   DRIVER       STATE     URL   SWARM   DOCKER    ERRORS
+# => vbox-blogexample1   -        virtualbox   Stopped                 Unknown  
+```
+
+Notice the column for `ACTIVE` and `STATE`.  
+You may need to start the virtual machine and re-export the environment variables.  Do do so run the following command:  
+
+```sh
+docker-machine start vbox-blogexample1
+eval "$(docker-machine env vbox-blogexample1)"
+```
+
+To verify run the following command again: `docker-machine ls`.  
+To learn more refer to the [Docker Machine documentation](https://docs.docker.com/machine/).  

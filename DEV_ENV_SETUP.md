@@ -4,9 +4,7 @@ Welcome to the development environment setup guide.
 In here you'll learn how to setup your machine in order to run and develop on this project.  
 
 This development environment setup assumes the developer is using macOS.  
-Windows and Linux instructions are currently not available.  
-
-If you wish for additional development environment setup guides, please feel free to reach out and send a feature request to [Benny Howard](mailto:bennyhoward.opensource@gmail.com).  
+Windows and Linux instructions are currently not available at the moment, however it is a [TODO](./.todo) item.  
 
 ## 1. Install Xcode Select
 
@@ -184,6 +182,7 @@ SHELL
 **NOTE**: With system restarts you may get an error like this: `docker: Cannot connect to the Docker daemon at unix:///var/run/docker.sock. Is the docker daemon running?.`.  To fix this just start the Docker machine with this command: `docker-machine start vbox-blogexample1` and source the `~/.zshrc` file again.  
 
 Activate NFS on the project folder so the MongoDB can mount project folders properly with the correct permissions.  
+For more information on Docker Machine NFS refer to the [documentation](https://github.com/adlogix/docker-machine-nfs) found on it's README file.  
 
 We're altering this Virtualbox machine to be used to mount volumes in the project directory using Docker Machine NFS.  This will avoid permissions issues with between the Docker container and host folders, however this will mean that mounting folders outside this project won't function properly.  Therefore, it's necessary to create a new Docker machine exclusive to this project.  Don't worry about eating up too much storage on your machine, the Virtualbox Docker machines are relatively cheap on resources, taking up ~1GB of memory, 1 CPU core, and ~70MB per machine.  
 
